@@ -1,10 +1,8 @@
-import { Connection } from './db.js';
 import express from 'express'
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import './database/db.js'
 
-
-Connection()
 const Port = 3333
 
 const app = express()
