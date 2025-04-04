@@ -1,0 +1,1 @@
+// Aqui que ele armazena as informações do banco
