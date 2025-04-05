@@ -1,9 +1,10 @@
 //Esse arquivo cria um conjunto de rotas ,funçoes como:
 //Criar ,Buscar ,Atualizar ,Excluir
 
-const express = require('express');
+import express from 'express';
+import Task from '../models/Task.js';
+
 const router = express.Router();
-const Task = require('../models/Task');
 
 /* 
   "POST /tarefas"
@@ -26,7 +27,7 @@ router.put('/tarefas/:id', async (req, res) => {
   const { id } = req.params;
   const { nome_tarefas, status, prioridade, data_inicial, data_final } = req.body;
 
- 
+  // Validação básica
   if (!nome_tarefas || !status || !data_inicial || !data_final) {
     return res.status(400).json({ error: 'Campos obrigatórios: nome_tarefas, status, data_inicial, data_final' });
   }
@@ -53,4 +54,4 @@ router.put('/tarefas/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
