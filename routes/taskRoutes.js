@@ -22,6 +22,33 @@ const router = express.Router();
   - Remover tarefa pelo ID
 */
 
+// POST /tarefas
+// - Criar nova tarefa
+// - Validar e salvar no banco
+
+router.post('/tarefas', async (req, res) => {
+  const { nome_tarefas, status, prioridade, data_inicial, data_final } = req.body;
+
+  // Validação básica
+  if (!nome_tarefas || !status || !data_inicial || !data_final) {
+    return res.status(400).json({ error: 'Campos obrigatórios: nome_tarefas, status, data_inicial, data_final' });
+  }
+
+  try {
+    const task = await Task.create({
+      nome_tarefas,
+      status,
+      prioridade,
+      data_inicial,
+      data_final,
+    });
+
+    res.json({ message: 'Tarefa criada com sucesso', task });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao criar tarefa' });
+  }
+});
+
 // PUT /tarefas/:id — Atualizar tarefa existente
 router.put('/tarefas/:id', async (req, res) => {
   const { id } = req.params;
@@ -53,5 +80,3 @@ router.put('/tarefas/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro interno ao atualizar tarefa' });
   }
 });
-
-export default router;
