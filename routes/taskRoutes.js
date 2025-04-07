@@ -1,6 +1,3 @@
-//Esse arquivo cria um conjunto de rotas ,funçoes como:
-//Criar ,Buscar ,Atualizar ,Excluir
-
 import express from 'express';
 import Task from '../models/Task.js';
 
@@ -80,3 +77,25 @@ router.put('/tarefas/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro interno ao atualizar tarefa' });
   }
 });
+
+// DELETE /tarefas/:id — Excluir tarefa existente
+router.delete('/tarefas/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const task = await Task.findByPk(id);
+
+    if (!task) {
+      return res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
+
+    await task.destroy();
+
+    res.status(204).send(); // Resposta sem conteúdo para sucesso
+  } catch (error) {
+    console.error('Erro ao excluir tarefa:', error);
+    res.status(500).json({ error: 'Erro interno ao excluir tarefa' });
+  }
+});
+
+export default router;
